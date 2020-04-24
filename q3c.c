@@ -55,6 +55,9 @@ extern Node *estimate_expression_value(PlannerInfo *root, Node *node);
 /* Postgres functions */
 Datum pgq3c_ang2ipix(PG_FUNCTION_ARGS);
 Datum pgq3c_ang2ipix_real(PG_FUNCTION_ARGS);
+/* beg cubeface changes */
+Datum pgq3c_ang2cubeface(PG_FUNCTION_ARGS);
+/* end cubeface changes */
 Datum pgq3c_ipix2ang(PG_FUNCTION_ARGS);
 Datum pgq3c_pixarea(PG_FUNCTION_ARGS);
 Datum pgq3c_dist(PG_FUNCTION_ARGS);
@@ -185,6 +188,27 @@ Datum pgq3c_get_version(PG_FUNCTION_ARGS)
 	PG_RETURN_CSTRING(buf);
 }
 
+
+/* beg cubeface changes */
+
+PG_FUNCTION_INFO_V1(pgq3c_ang2cubeface);
+Datum pgq3c_ang2cubeface(PG_FUNCTION_ARGS)
+{
+	q3c_coord_t ra = PG_GETARG_FLOAT8(0);
+	q3c_coord_t dec = PG_GETARG_FLOAT8(1);
+	char facenum;
+	
+	if ((!isfinite(ra)) || (!isfinite(dec)))
+	{
+		PG_RETURN_NULL();
+	}
+	facenum = q3c_get_facenum(ra, dec);
+
+  int32 facenumint = static_cast<int32>(facenum);
+
+	PG_RETURN_INT32(facenumint);
+}
+/* end cubeface changes */
 
 
 PG_FUNCTION_INFO_V1(pgq3c_ang2ipix);
