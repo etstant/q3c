@@ -204,7 +204,7 @@ Datum pgq3c_ang2cubeface(PG_FUNCTION_ARGS)
 	}
 	facenum = q3c_get_facenum(ra, dec);
 
-  int32 facenumint = static_cast<int32>(facenum);
+  int facenumint = (int)facenum;
 
 	PG_RETURN_INT32(facenumint);
 }
